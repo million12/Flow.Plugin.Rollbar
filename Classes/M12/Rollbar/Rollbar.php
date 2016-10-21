@@ -2,8 +2,6 @@
 namespace M12\Rollbar;
 
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Reflection\ObjectAccess;
-use TYPO3\Party\Domain\Model\AbstractParty;
 
 /**
  * Class Rollbar
@@ -41,18 +39,32 @@ class Rollbar
      */
     public function init()
     {
+        // Only initialise it for configured environments.
+        //
+        // Note: When Rollbar is not initialised, consequent calls to
+        // \Rollbar::report_*() methods are safe to call, but won't do anything.
         if ($this->settings['enableForProduction'] && $this->environment->getContext()->isProduction()
             || $this->settings['enableForDevelopment'] && $this->environment->getContext()->isDevelopment()
         ) {
-            $rollbarSettings = $this->settings['rollbarSettings'];
-            $rollbarSettings['root'] = rtrim(FLOW_PATH_ROOT, '/');
-            $rollbarSettings['environment'] = strtolower($this->environment->getContext());
-            $rollbarSettings['person_fn'] = [$this, 'getCurrentUser'];
-
-            // Note: don't set_exception_handler() - Flow does it
-            // Note: don't set_error_handler() - Flow does it
-            \Rollbar::init($rollbarSettings, false, false);
+            // Don't set_exception_handler() - Flow does it
+            // Don't set_error_handler() - Flow does it
+            \Rollbar::init($this->getRollbarSettings(), false, false);
         }
+    }
+
+    /**
+     * Prepare Rollbar settings
+     *
+     * @return array
+     */
+    public function getRollbarSettings()
+    {
+        $settings = $this->settings['rollbarSettings'];
+        $settings['root'] = rtrim(FLOW_PATH_ROOT, '/');
+        $settings['environment'] = strtolower($this->environment->getContext()); // Rollbar expects it lowercase
+        $settings['person_fn'] = [$this, 'getCurrentUser'];
+
+        return $settings;
     }
 
     /**

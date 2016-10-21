@@ -5,9 +5,12 @@ M12:
     # Enables Rollbar reporting for Development context
     enableForDevelopment: false
 
-    # Note: you can add here any setting option described in rollbar-php
-    # doc: https://github.com/rollbar/rollbar-php
+    # Server-side configuration
+    #
+    # You can add here any setting option described in rollbar-php
+    # docs: https://github.com/rollbar/rollbar-php
+    #
+    # Note: the `root`, `environment` and `person_fn` options are automatically configured.
     rollbarSettings:
-      # Note: the `root`, `environment` and `person_fn` options are automatically configured.
       access_token: your POST_SERVER_ITEM access token here
       batch_size: 10
