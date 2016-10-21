@@ -1,35 +1,38 @@
 # Rollbar.com error reporting inside Flow/Neos
 
-This project connects adds ability to report unhandled errors and
-exceptions to [Rollbar.com](https://rollbar.com/) service.
+Report errors and unhandled exceptions to [Rollbar.com](https://rollbar.com/) 
+service in your [Flow/Neos](https://www.neos.io/) project.
 
-It's especially useful on Production environment, where you don't want
+It is especially useful on Production environment, where you don't want
 to have any exceptions or errors unnoticed.
 
 
 # Features
-* Error and exception logging to Rollbar for web request
-* Error and exception logging to Rollbar for CLI request
+* Error and exception logging for CLI request
+* Error and exception logging for web request (server-side)
+* Error and exception logging for front-end (live site)
+* Error and exception logging for front-end (Neos back-end, content module
+  and all other modules, like Media, Workspaces etc)
 * Enabled by default for Production only, can be enabled for Development
   too.
-* Sending currently authenticated account identifier, if exist.
+* Sending currently authenticated account identifier, if present.
+* Tested with Flow 3.3, Neos 2.3 and PHP 7.0 (should work on PHP 5.6 up).
 
 
-# Installation and configuration:
+# Installation
 
-### Install it with composer:
+Install it with composer:
 ```
 composer require m12/flow-rollbar
 ```
 
-### Configure Configuration/Settings.yaml:
+# Configuration
 
-You'll need at least provide the API access token from your Rollbar.com
-app (the `post_server_item` from your Rollbar app settings).
-You can also configure if Rollbar is enabled on Production
-and Development environments.
+Configure your settings in `Configuration/Settings.yaml`.
+You can disable Rollbar error reporting for front-end JavaScript
+or enable/disable it for prod/dev environement.
 
-Below is the default configuration:
+The following are the **defaults**:
 ```
 M12:
   Rollbar:
@@ -38,15 +41,70 @@ M12:
     # Enables Rollbar reporting for Development context
     enableForDevelopment: false
 
+    # Enables Rollbar on the front-end, in the browser
+    # @see rollbarJsSettings below
+    enableForFrontend: true
+
+    # Server-side configuration
+    #
+    # You can add here any setting option described in rollbar-php
+    # docs: https://github.com/rollbar/rollbar-php
+    #
+    # Note: the `root`, `environment` and `person_fn` options are automatically configured.
     rollbarSettings:
       access_token: your POST_SERVER_ITEM access token here
+      batch_size: 10
+
+    # Front-end side configuration
+    #
+    # You can add here any option available in
+    # https://rollbar.com/docs/notifier/rollbar.js/ .
+    #
+    # Note: the `payload.environment` and `payload.person` options are automatically set.
+    rollbarJsSettings:
+      accessToken: your POST_CLIENT_ITEM access token here
+      captureUncaught: true
+      captureUnhandledRejections: true
+      payload: {}
 ```
 
-Note: you can add here any setting option described in rollbar-php doc:
-https://github.com/rollbar/rollbar-php
 
-Note: the `root`, `environment` and `person_fn` options are automatically
-configured.
+### Server-side error reporting
+
+Configure it in `rollbarSettings`. You'll need at least provide
+the API access token app (the `post_server_item` from your Rollbar app)
+to `rollbarSettings.access_token`. You can add here any setting option
+described in rollbar-php doc: https://github.com/rollbar/rollbar-php.
+
+
+### Frontend (javascript) error reporting
+
+Configure it in `rollbarJsSettings`. At least `accessToken` needs to be
+set (the `post_client_item` from your Rollbar app). You can add here 
+any setting option described in rollbar JS doc: https://rollbar.com/docs/notifier/rollbar.js/.
+
+Frontend integration works both for the public site and all Neos CMS
+admin areas (content module and other sub-modules, i.e. Media, History etc).
+
+To enable Rollbar only on Neos CMS admin panel, you could add the
+following line to your .ts code:
+```
+prototype(TYPO3.Neos:Page) {
+	head {
+		rollbar = TYPO3.TypoScript:Template {
+			@if.onlyRenderWhenNotInLiveWorkspace = ${node.context.workspace.name != 'live'}
+		}
+	}
+}
+```
+
+**Note**: the implementation of front-end side of things is a bit tricky
+at this moment. Aspects are used to inject `rollbarConfig` into view 
+of Backend\ModuleController, Views are configured to override Neos'
+`Default.html` layout (beware of that if you overridden it in your setup)
+to render Rollbar config and snippet on all Neos back-end (sub)modules.
+Apart of that a bit of .ts code (automatically included) to add it
+to page HEAD section when in Neos content module or in live site.
 
 
 ## Authors
