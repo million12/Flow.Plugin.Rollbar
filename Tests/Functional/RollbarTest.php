@@ -30,6 +30,19 @@ class RollbarTest extends \TYPO3\Flow\Tests\FunctionalTestCase
     /**
      * @test
      */
+    public function getRollbarJsSettings()
+    {
+        $settings = $this->rollbar->getRollbarJsSettings();
+
+        $this->assertArrayHasKey('accessToken', $settings);
+        $this->assertArrayHasKey('payload', $settings);
+        $this->assertNotEmpty($settings['payload']);
+        $this->assertNotEmpty($settings['payload']['environment']);
+    }
+
+    /**
+     * @test
+     */
     public function getRollbarSettings()
     {
         $settings = $this->rollbar->getRollbarSettings();

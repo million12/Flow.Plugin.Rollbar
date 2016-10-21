@@ -57,6 +57,16 @@ class Rollbar
     }
 
     /**
+     * Check if Rollbar should be enabled on the front-end
+     *
+     * @return bool
+     */
+    public function isEnabledForFrontend()
+    {
+        return (bool)$this->settings['enableForFrontend'];
+    }
+
+    /**
      * Prepare Rollbar settings
      *
      * @return array
@@ -69,6 +79,20 @@ class Rollbar
         $settings['person_fn'] = [$this, 'getPersonData'];
 
         return $settings;
+    }
+
+    /**
+     * Prepare Rollbar JS config (config to use on the front-end, in the browser)
+     *
+     * @return array
+     */
+    public function getRollbarJsSettings()
+    {
+        $jsSettings = $this->settings['rollbarJsSettings'];
+        $jsSettings['payload']['environment'] = strtolower($this->environment->getContext());
+        $jsSettings['payload']['person'] = $this->getPersonData();
+
+        return $jsSettings;
     }
 
     /**

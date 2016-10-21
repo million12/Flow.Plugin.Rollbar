@@ -1,9 +1,19 @@
+TYPO3:
+  Neos:
+    typoScript:
+      autoInclude:
+        'M12.Rollbar': true
+
 M12:
   Rollbar:
     # Enables Rollbar reporting for Production context
     enableForProduction: true
     # Enables Rollbar reporting for Development context
     enableForDevelopment: false
+
+    # Enables Rollbar on the front-end, in the browser
+    # @see rollbarJsSettings below
+    enableForFrontend: true
 
     # Server-side configuration
     #
@@ -14,3 +24,16 @@ M12:
     rollbarSettings:
       access_token: your POST_SERVER_ITEM access token here
       batch_size: 10
+
+    # Front-end side configuration
+    #
+    # You can add here any option available in
+    # https://rollbar.com/docs/notifier/rollbar.js/ .
+    #
+    # Note: the `payload.environment` and `payload.person` options are automatically set.
+    rollbarJsSettings:
+      accessToken: your POST_CLIENT_ITEM access token here
+      captureUncaught: true
+      captureUnhandledRejections: true
+      verbose: true
+      payload: {}
