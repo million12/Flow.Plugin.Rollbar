@@ -22,17 +22,11 @@ class Rollbar
     protected $securityContext;
 
     /**
+     * @Flow\InjectConfiguration
      * @var array
      */
     protected $settings;
 
-    /**
-     * @param array $settings
-     */
-    public function injectSettings(array $settings)
-    {
-        $this->settings = $settings;
-    }
 
     /**
      * Initialise Rollbar
@@ -43,13 +37,23 @@ class Rollbar
         //
         // Note: When Rollbar is not initialised, consequent calls to
         // \Rollbar::report_*() methods are safe to call, but won't do anything.
-        if ($this->settings['enableForProduction'] && $this->environment->getContext()->isProduction()
-            || $this->settings['enableForDevelopment'] && $this->environment->getContext()->isDevelopment()
-        ) {
+        if ($this->isEnabledForEnv()) {
             // Don't set_exception_handler() - Flow does it
             // Don't set_error_handler() - Flow does it
             \Rollbar::init($this->getRollbarSettings(), false, false);
         }
+    }
+
+    /**
+     * Check if Rollbar should be enabled for current environment,
+     * according to the settings
+     *
+     * @return bool
+     */
+    public function isEnabledForEnv()
+    {
+        return $this->settings['enableForProduction']  && $this->environment->getContext()->isProduction()
+            || $this->settings['enableForDevelopment'] && $this->environment->getContext()->isDevelopment();
     }
 
     /**
@@ -62,7 +66,7 @@ class Rollbar
         $settings = $this->settings['rollbarSettings'];
         $settings['root'] = rtrim(FLOW_PATH_ROOT, '/');
         $settings['environment'] = strtolower($this->environment->getContext()); // Rollbar expects it lowercase
-        $settings['person_fn'] = [$this, 'getCurrentUser'];
+        $settings['person_fn'] = [$this, 'getPersonData'];
 
         return $settings;
     }
@@ -72,7 +76,7 @@ class Rollbar
      *
      * @return array with id,
      */
-    public function getCurrentUser()
+    public function getPersonData()
     {
         // Get currently authenticated account from security context.
         //
