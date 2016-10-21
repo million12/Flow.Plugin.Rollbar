@@ -35,5 +35,5 @@ M12:
       accessToken: your POST_CLIENT_ITEM access token here
       captureUncaught: true
       captureUnhandledRejections: true
-      verbose: true
+#      verbose: true
       payload: {}
