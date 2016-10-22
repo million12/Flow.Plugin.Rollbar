@@ -6,9 +6,3 @@
     layoutRootPaths:
       'M12.Rollbar': 'resource://M12.Rollbar/Private/Layouts'
       'TYPO3.Neos': 'resource://TYPO3.Neos/Private/Layouts'
-
-    # Add our partials path to the set, so Rollbar.html can be found
-    # when referenced from overridden Default.html layout.
-    partialRootPaths:
-      'M12.Rollbar': 'resource://M12.Rollbar/Private/Partials'
-      'TYPO3.Neos': 'resource://TYPO3.Neos/Private/Partials'

@@ -40,3 +40,6 @@ M12:
       captureUncaught: true
       captureUnhandledRejections: true
       payload: {}
+
+    # Path to Rollbar html/js template
+    templatePath: 'resource://M12.Rollbar/Private/Templates/Rollbar.html'

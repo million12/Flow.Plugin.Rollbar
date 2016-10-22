@@ -35,9 +35,11 @@ class Rollbar
     {
         // Only initialise it for configured environments.
         //
-        // Note: When Rollbar is not initialised, consequent calls to
+        // Note: When Rollbar is NOT initialised, consequent calls to
         // \Rollbar::report_*() methods are safe to call, but won't do anything.
-        if ($this->isEnabledForEnv()) {
+        // That's why we set the param to `false` so nothing is actually
+        // send to Rollbar while executing tests.
+        if ($this->isEnabledForEnv(false)) {
             // Don't set_exception_handler() - Flow does it
             // Don't set_error_handler() - Flow does it
             \Rollbar::init($this->getRollbarSettings(), false, false);
@@ -48,12 +50,15 @@ class Rollbar
      * Check if Rollbar should be enabled for current environment,
      * according to the settings
      *
+     * @param bool $allowInTestingEnv
      * @return bool
      */
-    public function isEnabledForEnv()
+    public function isEnabledForEnv($allowInTestingEnv = true)
     {
         return $this->settings['enableForProduction']  && $this->environment->getContext()->isProduction()
-            || $this->settings['enableForDevelopment'] && $this->environment->getContext()->isDevelopment();
+            || $this->settings['enableForDevelopment'] && $this->environment->getContext()->isDevelopment()
+            || $allowInTestingEnv && $this->environment->getContext()->isTesting()
+        ;
     }
 
     /**
@@ -83,6 +88,7 @@ class Rollbar
 
     /**
      * Prepare Rollbar JS config (config to use on the front-end, in the browser)
+     * filled with extra dynamic data (i.e. environment, currently logged in user)
      *
      * @return array
      */

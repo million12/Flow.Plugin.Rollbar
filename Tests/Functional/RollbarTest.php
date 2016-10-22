@@ -30,6 +30,15 @@ class RollbarTest extends \TYPO3\Flow\Tests\FunctionalTestCase
     /**
      * @test
      */
+    public function isEnabledForEnv()
+    {
+        $this->assertTrue($this->rollbar->isEnabledForEnv());
+        $this->assertFalse($this->rollbar->isEnabledForEnv(false));
+    }
+
+    /**
+     * @test
+     */
     public function getRollbarJsSettings()
     {
         $settings = $this->rollbar->getRollbarJsSettings();

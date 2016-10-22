@@ -2,7 +2,7 @@ prototype(TYPO3.Neos:Page) {
 	head {
 		# Rollbar snippet
 		rollbar = TYPO3.TypoScript:Template {
-			templatePath = 'resource://M12.Rollbar/Private/Partials/Rollbar.html'
+			templatePath = ${Configuration.setting('M12.Rollbar.templatePath')}
 			rollbarConfig = ${M12.Rollbar.getRollbarConfig()}
 			@position = 'after titleTag'
 			@if.rollbarEnabled = ${this.rollbarConfig}

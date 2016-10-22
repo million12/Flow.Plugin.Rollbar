@@ -1,10 +1,9 @@
+{namespace rollbar=M12\Rollbar\ViewHelpers}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<f:if condition="{rollbarConfig}">
-			<f:render partial="Rollbar" arguments="{rollbarConfig: rollbarConfig}" />
-		</f:if>
+		<rollbar:renderRollbar />
 		<f:render section="head" />
 	</head>
 	<f:render section="body" />

@@ -12,9 +12,20 @@ class RollbarHelper implements ProtectedContextAwareInterface
      */
     protected $rollbar;
 
+    /**
+     * Get Rollbar JS config, filled with extra dynamic data
+     * (i.e. environment, currently logged in user).
+     * When Rollbar is disabled, it returns false.
+     *
+     * @return array|bool
+     */
     public function getRollbarConfig()
     {
-        return $this->rollbar->getRollbarJsSettings();
+        if ($this->rollbar->isEnabledForFrontend() && $this->rollbar->isEnabledForEnv()) {
+            return $this->rollbar->getRollbarJsSettings();
+        }
+
+        return false;
     }
 
     /**

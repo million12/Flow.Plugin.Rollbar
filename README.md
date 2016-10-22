@@ -66,6 +66,9 @@ M12:
       captureUncaught: true
       captureUnhandledRejections: true
       payload: {}
+
+    # Path to Rollbar html/js template
+    templatePath: 'resource://M12.Rollbar/Private/Templates/Rollbar.html'
 ```
 
 
@@ -79,7 +82,7 @@ described in rollbar-php doc: https://github.com/rollbar/rollbar-php.
 
 ### Frontend (javascript) error reporting
 
-Configure it in `rollbarJsSettings`. At least `accessToken` needs to be
+Configure it in `rollbarJsSettings`. At least `accessToken` value needs to be
 provided (the `post_client_item` from your Rollbar app). You can add here
 any setting option described in rollbar JS doc: https://rollbar.com/docs/notifier/rollbar.js/.
 
@@ -89,7 +92,7 @@ Frontend integration in Neos works out-of-the box, both for the public
 site and all Neos CMS admin areas (content module and other sub-modules,
 i.e. Media, History etc).
 
-To enable Rollbar only on Neos CMS admin panel, you could add the
+To enable Rollbar **only** on Neos CMS admin panel, you could add the
 following line to your .ts code:
 ```
 prototype(TYPO3.Neos:Page) {
@@ -101,14 +104,13 @@ prototype(TYPO3.Neos:Page) {
 }
 ```
 
-**Note**: the implementation of front-end side of things is a bit tricky
-at this moment. Aspects are used to inject `rollbarConfig` into view 
-of Neos Backend\ModuleController; Views are configured to override Neos'
-`Default.html` layout (beware of that if you overridden it in your setup)
-to render Rollbar config and snippet on all Neos back-end (sub)modules.
-Apart of that a bit of .ts code (automatically included) to add it
-to the page's HEAD section when in Neos content module or in live site.
-Any ideas how to make it better more than welcomed.
+**Note**: the implementation of front-end side of things can be a bit tricky.
+Views are configured to override Neos' `Default.html` layout to render
+Rollbar config and JS snippet on all Neos back-end (sub)modules. Beware
+of that if you have overridden the default Neos layout it in your setup.
+Apart of that, we have a bit of .ts code (automatically included) to add
+Rollbar snippet to the page HEAD section, both when in Neos content module
+or in live site.
 
 
 ## Authors
