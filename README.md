@@ -8,14 +8,13 @@ to have any exceptions or errors unnoticed.
 
 
 # Features
-* Error and exception logging for CLI request
-* Error and exception logging for web request (server-side)
-* Error and exception logging for front-end (live site)
-* Error and exception logging for front-end (Neos back-end, content module
+* Error and exception logging:
+  * on server-side (PHP, both web requests and CLI requests)
+  * on front-end (JS) for public site and Neos admin areas (content module
   and all other modules, like Media, Workspaces etc)
 * Enabled by default for Production only, can be enabled for Development
   too.
-* Sending currently authenticated account identifier, if present.
+* Sending environment and currently authenticated account identifier, if present.
 * Tested with Flow 3.3, Neos 2.3 and PHP 7.0 (should work on PHP 5.6 up).
 
 
@@ -72,7 +71,7 @@ M12:
 ```
 
 
-### Server-side error reporting
+## Server-side error reporting
 
 Configure it in `rollbarSettings`. You'll need at least provide
 the API access token app (the `post_server_item` from your Rollbar app)
@@ -80,13 +79,13 @@ to `rollbarSettings.access_token`. You can add here any setting option
 described in rollbar-php doc: https://github.com/rollbar/rollbar-php.
 
 
-### Frontend (javascript) error reporting
+## Frontend (javascript) error reporting
 
 Configure it in `rollbarJsSettings`. At least `accessToken` value needs to be
 provided (the `post_client_item` from your Rollbar app). You can add here
 any setting option described in rollbar JS doc: https://rollbar.com/docs/notifier/rollbar.js/.
 
-#### Neos
+### Neos
 
 Frontend integration in Neos works out-of-the box, both for the public
 site and all Neos CMS admin areas (content module and other sub-modules,
@@ -113,7 +112,30 @@ Rollbar snippet to the page HEAD section, both when in Neos content module
 or in live site.
 
 
-## Authors
+### Flow
+
+Front-end integration requires adding a Rollbar snippet to your template
+(or perhaps layout, so it's shared amongst all different views).
+
+Add Rollbar snippet to your front-end layout code using
+`<rollbar:renderRollbar />` tag. Remember to add `rollbar` namespace
+at the very top of the file.
+
+Rollbar recommends adding it at the very top of the HEAD section,
+at least before any other .js code. Your code could look something like that:
+```
+{namespace rollbar=M12\Rollbar\ViewHelpers}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<rollbar:renderRollbar />
+	...
+</head>
+```
+
+
+# Authors
 
 Author: Marcin Ryzycki (<marcin@m12.io>)
 
