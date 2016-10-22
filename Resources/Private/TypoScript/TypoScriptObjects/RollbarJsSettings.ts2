@@ -1,1 +1,0 @@
-prototype(M12.Rollbar:RollbarJsSettings).@class = 'M12\\Rollbar\\TypoScript\\RollbarJsSettingsImplementation'

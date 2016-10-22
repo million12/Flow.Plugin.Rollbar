@@ -50,7 +50,7 @@ M12:
     # You can add here any setting option described in rollbar-php
     # docs: https://github.com/rollbar/rollbar-php
     #
-    # Note: the `root`, `environment` and `person_fn` options are automatically configured.
+    # Note: the `root`, `environment` and `person_fn` options are automatically filled.
     rollbarSettings:
       access_token: your POST_SERVER_ITEM access token here
       batch_size: 10
@@ -60,7 +60,7 @@ M12:
     # You can add here any option available in
     # https://rollbar.com/docs/notifier/rollbar.js/ .
     #
-    # Note: the `payload.environment` and `payload.person` options are automatically set.
+    # Note: the `payload.environment` and `payload.person` options are automatically filled.
     rollbarJsSettings:
       accessToken: your POST_CLIENT_ITEM access token here
       captureUncaught: true
@@ -80,11 +80,14 @@ described in rollbar-php doc: https://github.com/rollbar/rollbar-php.
 ### Frontend (javascript) error reporting
 
 Configure it in `rollbarJsSettings`. At least `accessToken` needs to be
-set (the `post_client_item` from your Rollbar app). You can add here 
+provided (the `post_client_item` from your Rollbar app). You can add here
 any setting option described in rollbar JS doc: https://rollbar.com/docs/notifier/rollbar.js/.
 
-Frontend integration works both for the public site and all Neos CMS
-admin areas (content module and other sub-modules, i.e. Media, History etc).
+#### Neos
+
+Frontend integration in Neos works out-of-the box, both for the public
+site and all Neos CMS admin areas (content module and other sub-modules,
+i.e. Media, History etc).
 
 To enable Rollbar only on Neos CMS admin panel, you could add the
 following line to your .ts code:
@@ -100,11 +103,12 @@ prototype(TYPO3.Neos:Page) {
 
 **Note**: the implementation of front-end side of things is a bit tricky
 at this moment. Aspects are used to inject `rollbarConfig` into view 
-of Backend\ModuleController, Views are configured to override Neos'
+of Neos Backend\ModuleController; Views are configured to override Neos'
 `Default.html` layout (beware of that if you overridden it in your setup)
 to render Rollbar config and snippet on all Neos back-end (sub)modules.
 Apart of that a bit of .ts code (automatically included) to add it
-to page HEAD section when in Neos content module or in live site.
+to the page's HEAD section when in Neos content module or in live site.
+Any ideas how to make it better more than welcomed.
 
 
 ## Authors

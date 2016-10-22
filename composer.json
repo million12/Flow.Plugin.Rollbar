@@ -5,6 +5,8 @@
     "license": ["MIT"],
     "require": {
       "typo3/flow": "*",
+      "typo3/eel": "*",
+      "neos/utility-arrays": "*",
       "rollbar/rollbar": "~0.18.2"
     },
     "autoload": {

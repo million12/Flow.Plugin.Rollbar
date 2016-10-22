@@ -1,12 +1,9 @@
-# Custom TypoScript objects
-include: TypoScriptObjects/*
-
 prototype(TYPO3.Neos:Page) {
 	head {
 		# Rollbar snippet
 		rollbar = TYPO3.TypoScript:Template {
 			templatePath = 'resource://M12.Rollbar/Private/Partials/Rollbar.html'
-			rollbarConfig = M12.Rollbar:RollbarJsSettings
+			rollbarConfig = ${M12.Rollbar.getRollbarConfig()}
 			@position = 'after titleTag'
 			@if.rollbarEnabled = ${this.rollbarConfig}
 #			@if.onlyRenderWhenNotInLiveWorkspace = ${node.context.workspace.name != 'live'}

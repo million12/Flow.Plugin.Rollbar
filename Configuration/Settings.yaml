@@ -1,4 +1,7 @@
 TYPO3:
+  TypoScript:
+    defaultContext:
+      'M12.Rollbar': 'M12\Rollbar\Eel\Helper\RollbarHelper'
   Neos:
     typoScript:
       autoInclude:
@@ -20,7 +23,7 @@ M12:
     # You can add here any setting option described in rollbar-php
     # docs: https://github.com/rollbar/rollbar-php
     #
-    # Note: the `root`, `environment` and `person_fn` options are automatically configured.
+    # Note: the `root`, `environment` and `person_fn` options are automatically filled.
     rollbarSettings:
       access_token: your POST_SERVER_ITEM access token here
       batch_size: 10
@@ -30,10 +33,10 @@ M12:
     # You can add here any option available in
     # https://rollbar.com/docs/notifier/rollbar.js/ .
     #
-    # Note: the `payload.environment` and `payload.person` options are automatically set.
+    # Note: the `payload.environment` and `payload.person` options are automatically filled.
     rollbarJsSettings:
       accessToken: your POST_CLIENT_ITEM access token here
+#      verbose: true
       captureUncaught: true
       captureUnhandledRejections: true
-#      verbose: true
       payload: {}
