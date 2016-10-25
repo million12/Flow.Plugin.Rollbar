@@ -43,3 +43,7 @@ M12:
 
     # Path to Rollbar html/js template
     templatePath: 'resource://M12.Rollbar/Private/Templates/Rollbar.html'
+
+    # Assuming FLOW_CONTEXT contains sub-context, should it be sent in the `environment` key?
+    # When set to false *and* sub-context *is* present, whole FLOW_CONTEXT will be sent as a separate metadata.
+    includeSubContextInEnvironment: false

@@ -79,8 +79,15 @@ class Rollbar
     {
         $settings = $this->settings['rollbarSettings'];
         $settings['root'] = rtrim(FLOW_PATH_ROOT, '/');
-        $settings['environment'] = strtolower($this->environment->getContext()); // Rollbar expects it lowercase
         $settings['person_fn'] = [$this, 'getPersonData'];
+
+        $settings['environment'] = $this->getEnvironment();
+        if ($this->getEnvironmentStr() !== $this->getEnvironment()) {
+            // If includeSubContextInEnvironment=false and we have a sub-context in FLOW_CONTEXT, add it here.
+            // Note: currently there's no possibility to send arbitrary payload via PHP
+            // so include that information in _SERVER[argv], which is included in all reports.
+            $_SERVER['argv']['FLOW_CONTEXT'] = (string)$this->environment->getContext();
+        }
 
         return $settings;
     }
@@ -94,9 +101,14 @@ class Rollbar
     public function getRollbarJsSettings()
     {
         $jsSettings = $this->settings['rollbarJsSettings'];
-        $jsSettings['payload']['environment'] = strtolower($this->environment->getContext());
         if (($personData = $this->getPersonData())) {
             $jsSettings['payload']['person'] = $personData;
+        }
+
+        $jsSettings['payload']['environment'] = $this->getEnvironment();
+        if ($this->getEnvironmentStr() !== $this->getEnvironment()) {
+            // If includeSubContextInEnvironment=false and we have a sub-context in FLOW_CONTEXT, add it here.
+            $jsSettings['payload']['FLOW_CONTEXT'] = (string)$this->environment->getContext();
         }
 
         return $jsSettings;
@@ -120,5 +132,26 @@ class Rollbar
         return isset($account)
             ? [ 'id' => $account->getAccountIdentifier() ]
             : [];
+    }
+
+    /**
+     * Get environment name from FLOW_CONTEXT (lowercase - that's what Rollbar expects)
+     * based on `includeSubContextInEnvironment` option
+     *
+     * @return string
+     */
+    public function getEnvironment()
+    {
+        return $this->settings['includeSubContextInEnvironment']
+            ? $this->getEnvironmentStr()
+            : explode('/', $this->getEnvironmentStr())[0];
+    }
+
+    /**
+     * @return string Full FLOW_CONTEXT, lower-cased
+     */
+    protected function getEnvironmentStr()
+    {
+        return strtolower($this->environment->getContext());
     }
 }

@@ -2,6 +2,7 @@
 namespace M12\Rollbar\Tests\Functional;
 
 use M12\Rollbar\Rollbar;
+use TYPO3\Flow\Reflection\ObjectAccess;
 use TYPO3\Flow\Security\Account;
 
 class RollbarTest extends \TYPO3\Flow\Tests\FunctionalTestCase
@@ -95,5 +96,21 @@ class RollbarTest extends \TYPO3\Flow\Tests\FunctionalTestCase
         $this->assertTrue(is_array($person));
         $this->assertFalse(empty($person));
         $this->assertEquals($person['id'], $account->getAccountIdentifier());
+    }
+
+    /**
+     * @test
+     */
+    public function getEnvironment()
+    {
+        $this->assertEquals('testing', $this->rollbar->getEnvironment());
+
+        // switch setting `includeSubContextInEnvironment`
+        $settings = ObjectAccess::getProperty($this->rollbar, 'settings', true);
+        $settings['includeSubContextInEnvironment'] = true;
+        ObjectAccess::setProperty($this->rollbar, 'settings', $settings, true);
+
+        $this->assertTrue(ObjectAccess::getProperty($this->rollbar, 'settings', true)['includeSubContextInEnvironment']);
+        $this->assertEquals('testing', $this->rollbar->getEnvironment());
     }
 }
