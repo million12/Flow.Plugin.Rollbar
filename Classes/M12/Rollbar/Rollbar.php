@@ -37,8 +37,7 @@ class Rollbar
         //
         // Note: When Rollbar is NOT initialised, consequent calls to
         // \Rollbar::report_*() methods are safe to call, but won't do anything.
-        // That's why we set the param to `false` so nothing is actually
-        // send to Rollbar while executing tests.
+        // Note: use this->isEnabledForEnv(false) to exclude initialising in Testing env.
         if ($this->isEnabledForEnv(false)) {
             // Don't set_exception_handler() - Flow does it
             // Don't set_error_handler() - Flow does it
@@ -72,7 +71,7 @@ class Rollbar
     }
 
     /**
-     * Prepare Rollbar settings
+     * Prepare Rollbar settings for server-side
      *
      * @return array
      */
@@ -96,7 +95,9 @@ class Rollbar
     {
         $jsSettings = $this->settings['rollbarJsSettings'];
         $jsSettings['payload']['environment'] = strtolower($this->environment->getContext());
-        $jsSettings['payload']['person'] = $this->getPersonData();
+        if (($personData = $this->getPersonData())) {
+            $jsSettings['payload']['person'] = $personData;
+        }
 
         return $jsSettings;
     }
