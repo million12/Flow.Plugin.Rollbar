@@ -1,7 +1,7 @@
 <?php
 namespace M12\Rollbar;
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * Class Rollbar
@@ -11,13 +11,13 @@ class Rollbar
 {
     /**
      * @Flow\Inject()
-     * @var \TYPO3\Flow\Utility\Environment
+     * @var \Neos\Flow\Utility\Environment
      */
     protected $environment;
 
     /**
      * @Flow\Inject
-     * @var \TYPO3\Flow\Security\Context
+     * @var \Neos\Flow\Security\Context
      */
     protected $securityContext;
 

@@ -2,10 +2,10 @@
 namespace M12\Rollbar\Tests\Functional;
 
 use M12\Rollbar\Rollbar;
-use TYPO3\Flow\Reflection\ObjectAccess;
-use TYPO3\Flow\Security\Account;
+use Neos\Utility\ObjectAccess;
+use Neos\Flow\Security\Account;
 
-class RollbarTest extends \TYPO3\Flow\Tests\FunctionalTestCase
+class RollbarTest extends \Neos\Flow\Tests\FunctionalTestCase
 {
     /**
      * @var Rollbar

@@ -1,8 +1,8 @@
 <?php
 namespace M12\Rollbar\ViewHelpers;
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Fluid\View\StandaloneView;
+use Neos\Flow\Annotations as Flow;
+use Neos\FluidAdaptor\View\StandaloneView;
 
 /**
  * Class RenderRollbarViewHelper
@@ -15,7 +15,7 @@ use TYPO3\Fluid\View\StandaloneView;
  *  <rollbar:renderRollbar />
  * </code>
  */
-class RenderRollbarViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper
+class RenderRollbarViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * @Flow\Inject()
