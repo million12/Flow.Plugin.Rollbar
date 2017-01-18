@@ -10,8 +10,8 @@
       "rollbar/rollbar": "~0.18.2"
     },
     "autoload": {
-        "psr-0": {
-            "M12\\Rollbar": "Classes"
+        "psr-4": {
+            "M12\\Rollbar\\": "Classes"
         }
     },
     "extra": {
