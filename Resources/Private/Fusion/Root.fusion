@@ -1,12 +1,11 @@
-prototype(TYPO3.Neos:Page) {
+prototype(Neos.Neos:Page) {
 	head {
 		# Rollbar snippet
-		rollbar = TYPO3.TypoScript:Template {
+		rollbar = Neos.Fusion:Template {
 			templatePath = ${Configuration.setting('M12.Rollbar.templatePath')}
 			rollbarConfig = ${M12.Rollbar.getRollbarConfig()}
 			@position = 'after titleTag'
 			@if.rollbarEnabled = ${this.rollbarConfig}
-#			@if.onlyRenderWhenNotInLiveWorkspace = ${node.context.workspace.name != 'live'}
 		}
 	}
 }

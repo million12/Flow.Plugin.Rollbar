@@ -1,8 +1,8 @@
 <?php
 namespace M12\Rollbar\Eel\Helper;
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Eel\ProtectedContextAwareInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Eel\ProtectedContextAwareInterface;
 
 class RollbarHelper implements ProtectedContextAwareInterface
 {

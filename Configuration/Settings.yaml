@@ -1,9 +1,9 @@
-TYPO3:
-  TypoScript:
+Neos:
+  Fusion:
     defaultContext:
       'M12.Rollbar': 'M12\Rollbar\Eel\Helper\RollbarHelper'
   Neos:
-    typoScript:
+    fusion:
       autoInclude:
         'M12.Rollbar': true
 

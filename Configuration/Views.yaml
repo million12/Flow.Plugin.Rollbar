@@ -1,8 +1,8 @@
 -
-  requestFilter: 'isPackage("TYPO3.Neos") && isFormat("html") && isController("Backend\Module")'
+  requestFilter: 'isPackage("Neos.Neos") && isFormat("html") && isController("Backend\Module")'
   options:
 
     # Override layout paths, so we can we can override Neos Default.html layout
     layoutRootPaths:
       'M12.Rollbar': 'resource://M12.Rollbar/Private/Layouts'
-      'TYPO3.Neos': 'resource://TYPO3.Neos/Private/Layouts'
+      'Neos.Neos': 'resource://Neos.Neos/Private/Layouts'
