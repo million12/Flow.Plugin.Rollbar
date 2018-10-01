@@ -2,6 +2,7 @@
 namespace M12\Rollbar\Error;
 
 use Neos\Flow\Annotations as Flow;
+use Rollbar\Payload\Level;
 
 /**
  * @Flow\Scope("singleton")
@@ -16,7 +17,7 @@ class ProductionExceptionHandler extends \Neos\Flow\Error\ProductionExceptionHan
      */
     public function handleException($exception)
     {
-        $res = \Rollbar::report_exception($exception);
+        \Rollbar::log(Level::ERROR, $exception);
         parent::handleException($exception);
     }
 }

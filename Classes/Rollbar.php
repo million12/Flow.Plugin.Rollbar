@@ -34,8 +34,8 @@ class Rollbar
     {
         // Only initialise it for configured environments.
         //
-        // Note: When Rollbar is NOT initialised, consequent calls to
-        // \Rollbar::report_*() methods are safe to call, but won't do anything.
+        // Note: When Rollbar is NOT initialised, consequent calls to the
+        // \Rollbar::log() method are safe to call, but won't do anything.
         // Note: use this->isEnabledForEnv(false) to exclude initialising in Testing env.
         if ($this->isEnabledForEnv(false)) {
             // Don't set_exception_handler() - Flow does it
