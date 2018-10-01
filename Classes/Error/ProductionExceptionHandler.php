@@ -8,9 +8,15 @@ use Neos\Flow\Annotations as Flow;
  */
 class ProductionExceptionHandler extends \Neos\Flow\Error\ProductionExceptionHandler
 {
+    /**
+     * Handles the given exception
+     *
+     * @param object $exception The exception object - can be \Exception, or some type of \Throwable in PHP 7
+     * @return void
+     */
     public function handleException($exception)
     {
         $res = \Rollbar::report_exception($exception);
-        return parent::handleException($exception);
+        parent::handleException($exception);
     }
 }
