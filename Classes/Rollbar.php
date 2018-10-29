@@ -40,7 +40,7 @@ class Rollbar
         if ($this->isEnabledForEnv(false)) {
             // Don't set_exception_handler() - Flow does it
             // Don't set_error_handler() - Flow does it
-            \Rollbar::init($this->getRollbarSettings(), false, false);
+            \Rollbar\Rollbar::init($this->getRollbarSettings(), false, false);
         }
     }
 

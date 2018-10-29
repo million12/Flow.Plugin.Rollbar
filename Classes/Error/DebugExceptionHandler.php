@@ -2,6 +2,7 @@
 namespace M12\Rollbar\Error;
 
 use Neos\Flow\Annotations as Flow;
+use Rollbar\Rollbar;
 use Rollbar\Payload\Level;
 
 /**
@@ -17,7 +18,7 @@ class DebugExceptionHandler extends \Neos\Flow\Error\DebugExceptionHandler
      */
     public function handleException($exception)
     {
-        \Rollbar::log(Level::ERROR, $exception);
+        Rollbar::log(Level::ERROR, $exception);
         parent::handleException($exception);
     }
 }
