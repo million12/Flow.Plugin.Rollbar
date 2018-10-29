@@ -5,7 +5,7 @@
     "license": ["MIT"],
     "require": {
       "neos/flow": "^4.0 || ^5.0",
-      "neos/eel": "^4.0 ||§ 5.0",
+      "neos/eel": "^4.0 || ^5.0",
       "neos/utility-arrays": "^4.0 || ^5.0",
       "rollbar/rollbar": "^1.6"
     },
