@@ -1,13 +1,13 @@
 <?php
 namespace M12\Rollbar\Eel\Helper;
 
-use Neos\Flow\Annotations as Flow;
 use Neos\Eel\ProtectedContextAwareInterface;
+use Neos\Flow\Annotations as Flow;
 
 class RollbarHelper implements ProtectedContextAwareInterface
 {
     /**
-     * @Flow\Inject()
+     * @Flow\Inject
      * @var \M12\Rollbar\Rollbar
      */
     protected $rollbar;
@@ -34,8 +34,8 @@ class RollbarHelper implements ProtectedContextAwareInterface
      * @param string $methodName
      * @return boolean
      */
-    public function allowsCallOfMethod($methodName) {
+    public function allowsCallOfMethod($methodName)
+    {
         return true;
     }
-
 }

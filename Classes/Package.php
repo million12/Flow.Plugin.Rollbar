@@ -1,7 +1,6 @@
 <?php
 namespace M12\Rollbar;
 
-use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Package\Package as BasePackage;
 
 /**
@@ -21,7 +20,7 @@ class Package extends BasePackage
         $dispatcher = $bootstrap->getSignalSlotDispatcher();
         $dispatcher->connect(
             \Neos\Flow\Mvc\Dispatcher::class, 'beforeControllerInvocation',
-            \M12\Rollbar\Rollbar::class, 'init'
+            Rollbar::class, 'init'
         );
     }
 }

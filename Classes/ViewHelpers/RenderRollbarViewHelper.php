@@ -18,7 +18,7 @@ use Neos\FluidAdaptor\View\StandaloneView;
 class RenderRollbarViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     * @Flow\Inject()
+     * @Flow\Inject
      * @var \M12\Rollbar\Rollbar
      */
     protected $rollbar;
@@ -31,12 +31,14 @@ class RenderRollbarViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\Abstrac
 
     /**
      * Disable output escaping for this view helper
+     *
      * @var boolean
      */
     protected $escapeOutput = false;
 
     /**
      * @return string
+     * @throws \Neos\FluidAdaptor\Exception
      */
     public function render()
     {
@@ -44,6 +46,7 @@ class RenderRollbarViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\Abstrac
             $view = new StandaloneView($this->controllerContext->getRequest());
             $view->setTemplateSource(file_get_contents($this->settingTemplatePath));
             $view->assign('rollbarConfig', $this->rollbar->getRollbarJsSettings());
+
             return $view->render();
         }
 

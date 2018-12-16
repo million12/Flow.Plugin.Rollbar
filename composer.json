@@ -1,13 +1,13 @@
 {
     "name": "m12/flow-rollbar",
-    "type": "typo3-flow-plugin",
+    "type": "neos-package",
     "description": "Rollbar.com error reporting for Flow/Neos projects",
     "license": ["MIT"],
     "require": {
-      "neos/flow": "~4.0",
-      "neos/eel": "~4.0",
-      "neos/utility-arrays": "~4.0",
-      "rollbar/rollbar": "~0.18.2"
+      "neos/flow": "^4.0 || ^5.0",
+      "neos/eel": "^4.0 || ^5.0",
+      "neos/utility-arrays": "^4.0 || ^5.0",
+      "rollbar/rollbar": "^1.6"
     },
     "autoload": {
         "psr-4": {

@@ -10,7 +10,7 @@ use Neos\Flow\Annotations as Flow;
 class Rollbar
 {
     /**
-     * @Flow\Inject()
+     * @Flow\Inject
      * @var \Neos\Flow\Utility\Environment
      */
     protected $environment;
@@ -27,7 +27,6 @@ class Rollbar
      */
     protected $settings;
 
-
     /**
      * Initialise Rollbar
      */
@@ -35,13 +34,13 @@ class Rollbar
     {
         // Only initialise it for configured environments.
         //
-        // Note: When Rollbar is NOT initialised, consequent calls to
-        // \Rollbar::report_*() methods are safe to call, but won't do anything.
+        // Note: When Rollbar is NOT initialised, consequent calls to the
+        // \Rollbar::log() method are safe to call, but won't do anything.
         // Note: use this->isEnabledForEnv(false) to exclude initialising in Testing env.
         if ($this->isEnabledForEnv(false)) {
             // Don't set_exception_handler() - Flow does it
             // Don't set_error_handler() - Flow does it
-            \Rollbar::init($this->getRollbarSettings(), false, false);
+            \Rollbar\Rollbar::init($this->getRollbarSettings(), false, false);
         }
     }
 
@@ -54,10 +53,9 @@ class Rollbar
      */
     public function isEnabledForEnv($allowInTestingEnv = true)
     {
-        return $this->settings['enableForProduction']  && $this->environment->getContext()->isProduction()
+        return $this->settings['enableForProduction'] && $this->environment->getContext()->isProduction()
             || $this->settings['enableForDevelopment'] && $this->environment->getContext()->isDevelopment()
-            || $allowInTestingEnv && $this->environment->getContext()->isTesting()
-        ;
+            || $allowInTestingEnv && $this->environment->getContext()->isTesting();
     }
 
     /**
@@ -127,11 +125,10 @@ class Rollbar
         // might be not initialised and will throw an exception.
         try {
             $account = $this->securityContext->getAccount();
-        } catch (\Exception $e) {};
+        } catch (\Exception $exception) {
+        };
 
-        return isset($account)
-            ? [ 'id' => $account->getAccountIdentifier() ]
-            : [];
+        return isset($account) ? ['id' => $account->getAccountIdentifier()] : [];
     }
 
     /**
@@ -142,9 +139,7 @@ class Rollbar
      */
     public function getEnvironment()
     {
-        return $this->settings['includeSubContextInEnvironment']
-            ? $this->getEnvironmentStr()
-            : explode('/', $this->getEnvironmentStr())[0];
+        return $this->settings['includeSubContextInEnvironment'] ? $this->getEnvironmentStr() : explode('/', $this->getEnvironmentStr())[0];
     }
 
     /**
